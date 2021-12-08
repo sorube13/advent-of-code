@@ -2,35 +2,47 @@ require('../tools.js')();
 
 var input = readFileInput('./inputs/day5.txt');
 
+class Point {
+    constructor(point, x=0, y=0){
+        if(point){
+            this.x = +point.split(',')[0];
+            this.y = +point.split(',')[1];
+        } else{
+            this.x = +x || 0;
+            this.y = +y || 0;
+        }
+        
+    }
+}
+
 class Segment {
     constructor(segment) {
-        var point1 = segment.split(' -> ')[0];
-        var point2 = segment.split(' -> ')[1];
-        this.x1 = point1.split(',')[0];
-        this.x2 = point2.split(',')[0];
-        this.y1 = point1.split(',')[1];
-        this.y2 = point2.split(',')[1];
-        this.isStraight = this.x1 === this.x2 || this.y1 === this.y2;
-        this.isDiagonal = Math.abs(this.x2-this.x1) === Math.abs(this.y2-this.y1);
-        this.isValid = this.isStraight || this.isDiagonal;
+        this.point1 = new Point(segment.split(' -> ')[0]);
+        this.point2 = new Point(segment.split(' -> ')[1]);
+        this.isHorizontal = this.point1.x === this.point2.x;
+        this.isVertical = this.point1.y === this.point2.y;
+        this.isDiagonal = Math.abs(this.point1.x-this.point2.x) === Math.abs(this.point1.y-this.point2.y);
+        if(!this.isHorizontal) {
+            // Line equation y = mx + n
+            this.m = (this.point2.y - this.point1.y)/(this.point2.x-this.point1.x);
+            this.n = this.point2.y - (this.m*this.point2.x);
+        }
+        
     }
 
-    getMaxX() {
-        return Math.max(this.x1, this.x2);
-    }
-
-    getMaxY() {
-        return Math.max(this.y1, this.y2);
-    }
-
-    isInSegment(x,y){
-        if(this.isStraight) {
-            return this.x1>=x && this.x2<=x && this.y1>=y && this.y2<=y;
-        } else if (this.isDiagonal){
-            var m = (this.y2-this.y1)/(this.x2-this.x1);
-            return (this.y2-y)/(this.x2-x) === m;
+    isInSegment(point){
+        if(this.isHorizontal) {
+            var ymin = Math.min(segment.point1.y, segment.point2.y);
+            var ymax = Math.max(segment.point1.y, segment.point2.y);
+            return this.point1.x === point.x && this.point1.x && ymin<=point.y && ymax>=point.y;
+        } else if (this.isDiagonal || this.isVertical){
+            return this.m*point.x + this.n === point.y;
         }
         return false;
+    }
+
+    isValid(){
+        return this.isHorizontal ||this.isVertical || this.isDiagonal;
     }
 }
 
@@ -46,14 +58,15 @@ class VentMap {
     }
 
     fillMap(segment) {
-        if(segment.isValid) {
-            var xmin = Math.min(segment.x1, segment.x2);
-            var xmax = Math.max(segment.x1, segment.x2);
-            var ymin = Math.min(segment.y1, segment.y2);
-            var ymax = Math.max(segment.y1, segment.y2);
+        if(segment.isValid()) {
+            var xmin = Math.min(segment.point1.x, segment.point2.x);
+            var xmax = Math.max(segment.point1.x, segment.point2.x);
+            var ymin = Math.min(segment.point1.y, segment.point2.y);
+            var ymax = Math.max(segment.point1.y, segment.point2.y);
             for(var x=xmin; x<=xmax; x++){
                 for(var y=ymin; y<=ymax; y++) {
-                    if(segment.isInSegment(x, y)){
+                    var point = new Point(null,x,y)
+                    if(segment.isInSegment(point)){
                         this.map[y][x]++; 
                     }                }
             }
@@ -78,13 +91,13 @@ class VentMap {
 
 }
 
-var ventMap = new VentMap(10,10);
+var ventMap = new VentMap();
 
 for(var seg of input) {
     var segment = new Segment(seg);
     ventMap.fillMap(segment);
 }
-ventMap.printMap()
+//ventMap.printMap()
 console.log(ventMap.findDangerousAreas(2));
 
 
