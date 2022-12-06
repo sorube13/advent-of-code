@@ -1,11 +1,12 @@
 import { readFileInputRegex, transpose } from '../tools-ts';
 
 const input: string[] = readFileInputRegex('./inputs/day5.txt', '\r\n\r\n');
+const part1 = false;
 
 const map = input[0].split('\r\n').reverse();
 
 let chunkSize = 3;
-let crates = [];
+let crates : string[][] = [];
 for (let idx = 0; idx < map.length; idx++) {
   crates[idx] = [];
   for (let i = 0; i < map[idx].length; i += chunkSize + 1) {
@@ -15,7 +16,7 @@ for (let idx = 0; idx < map.length; idx++) {
 
 let cratesTransp: string[][] = transpose(crates);
 
-let stacks: {} = {};
+const stacks: {[index: string]:any} = {}
 for (let c of cratesTransp) {
   stacks[c[0]] = c.slice(1).filter((x) => x != '');
 }
@@ -28,11 +29,16 @@ for (let proc of procedures) {
   let nbCrates: number = +procList[1];
   let origin: string = procList[3];
   let destination: string = procList[5];
-
-  while (nbCrates > 0) {
-    stacks[destination] = stacks[destination].concat(stacks[origin].pop());
-    nbCrates--;
+  if(part1) {
+    while (nbCrates > 0) {
+      stacks[destination] = stacks[destination].concat(stacks[origin].pop());
+      nbCrates--;
+    }
+  } else {
+    let movingCrates:string[]=stacks[origin].splice(stacks[origin].length-nbCrates);
+    stacks[destination] = stacks[destination].concat(movingCrates);
   }
+  
 }
 
 let lastStack: string = '';
