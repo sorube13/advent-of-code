@@ -18,3 +18,8 @@ export function readFileInputCommas(fileInput: string) {
 export function readTextFile(fileInput: string) {
   return fs.readFileSync(fileInput, 'utf-8');
 }
+
+export function transpose(matrix) {
+  let [row] = matrix;
+  return row.map((value, column) => matrix.map((row) => row[column]));
+}
