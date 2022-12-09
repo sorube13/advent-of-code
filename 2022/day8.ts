@@ -1,4 +1,3 @@
-import { dir } from 'console';
 import { readFileInput } from '../tools-ts';
 
 let input: string[] = readFileInput('./inputs/day8.txt');
