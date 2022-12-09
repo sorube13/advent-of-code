@@ -95,6 +95,9 @@ class Knot {
       childKnotPoint.moveLeft();
     }
     this.childKnot.saveVisitedPoint();
+    if(this.childKnot){
+      this.childKnot.moveChild();
+    }
   }
 
   mustMoveChild():boolean {
@@ -113,19 +116,35 @@ class Knot {
 
   print():void {
     console.log('Visited points : ',this.visitedPoints);
-  }
-
-  
+  }  
 }
 
 let instructions = input.map((i) => new Instruction(i));
 
+// Part 1
 let headKnot = new Knot(new Point(0, 0));
 let tailKnot = new Knot(new Point(0, 0));
 headKnot.childKnot=tailKnot;
 
+// Part 2
+let tailKnot2 = new Knot(new Point(0, 0));
+let tailKnot3 = new Knot(new Point(0, 0));
+let tailKnot4 = new Knot(new Point(0, 0));
+let tailKnot5 = new Knot(new Point(0, 0));
+let tailKnot6 = new Knot(new Point(0, 0));
+let tailKnot7 = new Knot(new Point(0, 0));
+let tailKnot8 = new Knot(new Point(0, 0));
+let tailKnot9 = new Knot(new Point(0, 0));
+tailKnot.childKnot=tailKnot2;
+tailKnot2.childKnot=tailKnot3;
+tailKnot3.childKnot=tailKnot4;
+tailKnot4.childKnot=tailKnot5;
+tailKnot5.childKnot=tailKnot6;
+tailKnot6.childKnot=tailKnot7;
+tailKnot7.childKnot=tailKnot8;
+tailKnot8.childKnot=tailKnot9;
+
 for (let inst of instructions) {
-  inst.print();
   let nbSteps = inst.steps;
   while (nbSteps > 0) {
     headKnot.move(inst.dir);
@@ -134,3 +153,4 @@ for (let inst of instructions) {
 }
 
 console.log('Part 1 : ', tailKnot.visitedPoints.length); // 6311
+console.log('Part 2 : ', tailKnot9.visitedPoints.length); // 2482
