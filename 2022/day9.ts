@@ -49,66 +49,88 @@ class Point {
   }
 }
 
+class Knot {
+  point:Point;
+  visitedPoints: Point[]=[];
+  childKnot:Knot|undefined;
+  constructor(point:Point) {
+    this.point = point;
+    this.visitedPoints.push(new Point(point.x, point.y));
+  }
+
+  move(dir: string) {
+    switch (dir) {
+      case DIR.UP:
+        this.point.moveUp();
+        break;
+      case DIR.DOWN:
+        this.point.moveDown();
+        break;
+      case DIR.LEFT:
+        this.point.moveLeft();
+        break;
+      case DIR.RIGHT:
+        this.point.moveRight();
+        break;
+      default:
+        break;
+    }
+    this.saveVisitedPoint();
+    this.moveChild();
+  }
+
+  moveChild():void {
+    if(!this.childKnot || !this.mustMoveChild()){
+      return;
+    }
+    let childKnotPoint = this.childKnot.point;
+    if (this.point.x > childKnotPoint.x) {
+      childKnotPoint.moveUp();
+    } else if (this.point.x < childKnotPoint.x) {
+      childKnotPoint.moveDown();
+    }
+    if (this.point.y > childKnotPoint.y) {
+      childKnotPoint.moveRight();
+    } else if (this.point.y < childKnotPoint.y) {
+      childKnotPoint.moveLeft();
+    }
+    this.childKnot.saveVisitedPoint();
+  }
+
+  mustMoveChild():boolean {
+    if(!this.childKnot){
+      return false;
+    }
+    let childKnotPoint=this.childKnot.point;
+    return (Math.abs(this.point.x-childKnotPoint.x)>1 || Math.abs(this.point.y-childKnotPoint.y)>1);
+  }
+
+  saveVisitedPoint():void{
+    if (!this.visitedPoints.find((p) => p.equals(this.point))) {
+      this.visitedPoints.push(new Point(this.point.x, this.point.y));
+    }
+  }
+
+  print():void {
+    console.log('Visited points : ',this.visitedPoints);
+  }
+
+  
+}
+
 let instructions = input.map((i) => new Instruction(i));
-let visitedTailPoints: Point[] = [];
 
-let headPoint = new Point(0, 0);
-let tailPoint = new Point(0, 0);
-
-function moveHead(dir: string, hPoint: Point) {
-  switch (dir) {
-    case DIR.UP:
-      hPoint.moveUp();
-      break;
-    case DIR.DOWN:
-      hPoint.moveDown();
-      break;
-    case DIR.LEFT:
-      hPoint.moveLeft();
-      break;
-    case DIR.RIGHT:
-      hPoint.moveRight();
-      break;
-    default:
-      break;
-  }
-}
-
-function moveTail(hPoint: Point, tPoint: Point) {
-  if (hPoint.x > tPoint.x) {
-      tPoint.moveUp();
-  } else if (hPoint.x < tPoint.x) {
-    tPoint.moveDown();
-  }
-  if (hPoint.y > tPoint.y) {
-    tPoint.moveRight();
-  } else if (hPoint.y < tPoint.y) {
-    tPoint.moveLeft();
-  }
-}
-
-function mustMoveTail(hPoint: Point, tPoint: Point) {
-  return (Math.abs(hPoint.x-tPoint.x)>1 || Math.abs(hPoint.y-tPoint.y)>1);
-}
+let headKnot = new Knot(new Point(0, 0));
+let tailKnot = new Knot(new Point(0, 0));
+headKnot.childKnot=tailKnot;
 
 for (let inst of instructions) {
   inst.print();
   let nbSteps = inst.steps;
   while (nbSteps > 0) {
-    moveHead(inst.dir, headPoint);
-    //console.log('Head Point: {x: ' + headPoint.x + ', y: ' + headPoint.y + '}');
-    if (mustMoveTail(headPoint,tailPoint)) {
-      // if abs distance from point is >=2 move otherwise dont
-      moveTail(headPoint, tailPoint);
-    }
-    //console.log('Tail Point: {x: ' + tailPoint.x + ', y: ' + tailPoint.y + '}');
-    if (!visitedTailPoints.find((p) => p.equals(tailPoint))) {
-      visitedTailPoints.push(new Point(tailPoint.x, tailPoint.y));
-      //console.log('Visited Point: {x: ' + tailPoint.x + ', y: ' + tailPoint.y + '}');
-    }
+    headKnot.move(inst.dir);
     nbSteps--;
   }
-  //console.log('----------');
 }
 
-console.log('Part 1 : ', visitedTailPoints.length); // 6311
+console.log('Part 1 : ', tailKnot.visitedPoints.length); // 6311
