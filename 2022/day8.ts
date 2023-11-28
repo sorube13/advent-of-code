@@ -1,6 +1,7 @@
 import { readFileInput } from '../tools-ts';
 
-let input: string[] = readFileInput('./inputs/day8.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day8.txt');
+let input: string[] = readFileInput(inputFile);
 
 const forest: number[][] = input.map((i) => i.split('').map((t) => +t));
 const width = forest[0].length;
@@ -25,11 +26,11 @@ function checkViewFromTree(directions: number[][], tree: number): boolean {
   return isTreeVisible;
 }
 
-function isVisible(arr: number[], tree): boolean {
+function isVisible(arr: number[], tree: number): boolean {
   return Math.max(...arr) < tree;
 }
 
-function visibleTrees(directions: number[][], tree): number {
+function visibleTrees(directions: number[][], tree: number): number {
   let scenicScoresDirections = [0, 0, 0, 0];
   for (let dirIdx = 0; dirIdx < directions.length; dirIdx++) {
     let dir = directions[dirIdx];

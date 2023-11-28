@@ -1,6 +1,7 @@
 import { readFileInput } from '../tools-ts';
 
-let input: string[] = readFileInput('./inputs/day9.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day9.txt');
+let input: string[] = readFileInput(inputFile);
 
 const DIR = {
   UP: 'U',

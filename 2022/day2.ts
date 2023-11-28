@@ -1,8 +1,9 @@
 import { readFileInput } from '../tools-ts';
 
-let input: string[] = readFileInput('./inputs/day2.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day2.txt');
+let input: string[] = readFileInput(inputFile);
 
-const OPONENT = {
+const OPPONENT = {
   ROCK: { value: 'A', score: 1 },
   PAPER: { value: 'B', score: 2 },
   SCISSORS: { value: 'C', score: 3 },
@@ -20,15 +21,16 @@ const RESULT = {
 };
 
 class Match {
-  oponent: string;
-  player: string;
-  score: number;
-  result: number;
+  opponent: string;
+  player: string | null;
+  score: number | undefined;
+  result: number | undefined;
 
-  constructor(oponent: string, player: string, result: string) {
-    this.oponent = oponent;
+  constructor(opponent: string, player: string|null, result: string|null) {
+    this.opponent = opponent;
     this.player = player;
     if (result) {
+      // @ts-ignore
       this.result = Object.values(RESULT).find((r) => r.value == result).score;
     }
   }
@@ -50,22 +52,22 @@ class Match {
       this.result = RESULT.DRAW.score;
       return;
     }
-    switch (this.oponent) {
-      case OPONENT.ROCK.value:
+    switch (this.opponent) {
+      case OPPONENT.ROCK.value:
         if (this.player == PLAYER.PAPER.value) {
           this.result = RESULT.WIN.score;
         } else if (this.player == PLAYER.SCISSORS.value) {
           this.result = RESULT.LOOSE.score;
         }
         break;
-      case OPONENT.PAPER.value:
+      case OPPONENT.PAPER.value:
         if (this.player == PLAYER.ROCK.value) {
           this.result = RESULT.LOOSE.score;
         } else if (this.player == PLAYER.SCISSORS.value) {
           this.result = RESULT.WIN.score;
         }
         break;
-      case OPONENT.SCISSORS.value:
+      case OPPONENT.SCISSORS.value:
         if (this.player == PLAYER.ROCK.value) {
           this.result = RESULT.WIN.score;
         } else if (this.player == PLAYER.PAPER.value) {
@@ -78,8 +80,8 @@ class Match {
   }
 
   playWithResult(): void {
-    switch (this.oponent) {
-      case OPONENT.ROCK.value:
+    switch (this.opponent) {
+      case OPPONENT.ROCK.value:
         if (this.result == RESULT.WIN.score) {
           this.player = PLAYER.PAPER.value;
         } else if (this.result == RESULT.DRAW.score) {
@@ -88,7 +90,7 @@ class Match {
           this.player = PLAYER.SCISSORS.value;
         }
         break;
-      case OPONENT.PAPER.value:
+      case OPPONENT.PAPER.value:
         if (this.result == RESULT.WIN.score) {
           this.player = PLAYER.SCISSORS.value;
         } else if (this.result == RESULT.DRAW.score) {
@@ -97,7 +99,7 @@ class Match {
           this.player = PLAYER.ROCK.value;
         }
         break;
-      case OPONENT.SCISSORS.value:
+      case OPPONENT.SCISSORS.value:
         if (this.result == RESULT.WIN.score) {
           this.player = PLAYER.ROCK.value;
         } else if (this.result == RESULT.DRAW.score) {
@@ -112,22 +114,25 @@ class Match {
   }
 
   calculateScore(): number {
+    // @ts-ignore
     return Object.values(PLAYER).find((v) => v.value == this.player).score + this.result;
   }
 
   checkDraw(): boolean {
-    const player1 = Object.keys(OPONENT).find((key) => OPONENT[key].value === this.oponent);
+    // @ts-ignore
+    const player1 = Object.keys(OPPONENT).find((key) => OPPONENT[key].value === this.opponent);
+    // @ts-ignore
     const player2 = Object.keys(PLAYER).find((key) => PLAYER[key].value === this.player);
     return player1 == player2;
   }
 
   checkValidOptions(): boolean {
-    return this.checkValidOponent() && this.checkValidPlayer();
+    return this.checkValidOpponent() && this.checkValidPlayer();
   }
 
-  checkValidOponent(): boolean {
-    if (this.oponent && Object.values(OPONENT).find((p) => p.value == this.oponent) == null) {
-      console.error('OPONENT VALUE INVALID');
+  checkValidOpponent(): boolean {
+    if (this.opponent && Object.values(OPPONENT).find((p) => p.value == this.opponent) == null) {
+      console.error('OPPONENT VALUE INVALID');
       return false;
     }
     return true;
@@ -148,10 +153,12 @@ for (let i of input) {
   // Part 1
   let matchPart1 = new Match(m[0], m[1], null);
   matchPart1.play();
+  // @ts-ignore
   totalScorePart1 += matchPart1.score;
   // Part 2
   let matchPart2 = new Match(m[0], null, m[1]);
   matchPart2.play();
+  // @ts-ignore
   totalScorePart2 += matchPart2.score;
 }
 console.log('Total Score part 1 : ' + totalScorePart1);

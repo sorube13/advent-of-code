@@ -1,12 +1,13 @@
 import { readFileInput } from '../tools-ts';
+const inputFile:string = require('path').resolve(__dirname, './inputs/day4.txt');
 
-let input: string[] = readFileInput('./inputs/day4.txt');
+let input: string[] = readFileInput(inputFile);
 
 function createSection(start: number, finish: number): number[] {
   return Array.from({ length: finish - start + 1 }, (_, i) => start + i);
 }
 
-function completeOverlap(section1, section2) {
+function completeOverlap(section1: string | any[], section2: string | any[]) {
   let a = section1[0];
   let b = section1[section1.length - 1];
   let c = section2[0];
@@ -15,7 +16,7 @@ function completeOverlap(section1, section2) {
   return (a <= c && d <= b) || (c <= a && b <= d);
 }
 
-function someOverlap(section1, section2) {
+function someOverlap(section1: string | any[], section2: string | any[]) {
   let a = section1[0];
   let b = section1[section1.length - 1];
   let c = section2[0];

@@ -1,6 +1,7 @@
 import { readFileInput } from '../tools-ts';
 
-let input: string[] = readFileInput('./inputs/day10.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day10.txt');
+let input: string[] = readFileInput(inputFile);
 
 class Program {
   x: number = 1;

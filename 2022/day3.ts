@@ -1,6 +1,7 @@
 import { readFileInput } from '../tools-ts';
 
-let rucksacks: string[] = readFileInput('./inputs/day3.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day3.txt');
+let rucksacks: string[] = readFileInput(inputFile);
 const priorities = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 /*let sumPriority = 0;
