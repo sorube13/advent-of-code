@@ -1,6 +1,8 @@
 import { readFileInputRegex, transpose } from '../tools-ts';
 
-const input: string[] = readFileInputRegex('./inputs/day5.txt', '\r\n\r\n');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day5.txt');
+
+const input: string[] = readFileInputRegex(inputFile, '\r\n\r\n');
 const part1 = false;
 
 const map = input[0].split('\r\n').reverse();

@@ -1,17 +1,17 @@
 import * as fs from 'fs';
 
 export function readFileInput(fileInput: string):string[] {
-  var text = fs.readFileSync(fileInput, 'utf-8');
+  const text = fs.readFileSync(fileInput, 'utf-8');
   return text.split('\r\n');
 }
 
 export function readFileInputRegex(fileInput: string, regex: string):string[] {
-  var text = fs.readFileSync(fileInput, 'utf-8');
+  const text = fs.readFileSync(fileInput, 'utf-8');
   return text.split(regex);
 }
 
 export function readFileInputCommas(fileInput: string): string[] {
-  var text = fs.readFileSync(fileInput, 'utf-8');
+  const text = fs.readFileSync(fileInput, 'utf-8');
   return text.split(',');
 }
 
@@ -23,3 +23,4 @@ export function transpose(matrix:string[][]) {
   let [row] = matrix;
   return row.map((value, column) => matrix.map((row) => row[column]));
 }
+

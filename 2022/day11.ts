@@ -1,6 +1,7 @@
 import { readFileInputRegex } from '../tools-ts';
 
-const input: string[] = readFileInputRegex('inputs/day11.txt', '\r\n\r\n');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day11.txt');
+const input: string[] = readFileInputRegex(inputFile, '\r\n\r\n');
 
 class Monkey {
   id: number;
@@ -50,11 +51,13 @@ class Monkey {
       //console.log('      Current worry level is divisible by ' + this.divisibleBy);
       // console.log('      Item with worry level ' + item + ' is thrown to monkey ' + this.monkeyIdTrue);
       let trueMonkey = monkeys.find((m) => m.id === this.monkeyIdTrue);
+      // @ts-ignore
       trueMonkey.items.push(item);
     } else {
       //console.log('      Current worry level is not divisible by ' + this.divisibleBy);
       //console.log('      Item with worry level ' + item + ' is thrown to monkey ' + this.monkeyIdFalse);
       let falseMonkey = monkeys.find((m) => m.id === this.monkeyIdFalse);
+      // @ts-ignore
       falseMonkey.items.push(item);
     }
   }

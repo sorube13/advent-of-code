@@ -1,6 +1,6 @@
 import { readFileInput } from '../tools-ts';
-
-let input: string[] = readFileInput('./inputs/day7.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day7.txt');
+let input: string[] = readFileInput(inputFile);
 
 const maxSize = 100000;
 const totalDiskSpace = 70000000;
@@ -62,7 +62,7 @@ directoriesToDelete.sort((k1, k2) => fileSys[k1].size - fileSys[k2].size);
 
 console.log('Part 2 :', fileSys[directoriesToDelete[0]].size);
 
-function calculateTotalSize(tree) {
+function calculateTotalSize(tree: { children: string | any[]; size: number; }) {
   if (tree.children.length == 0) {
     return tree.size;
   }

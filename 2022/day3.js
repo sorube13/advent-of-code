@@ -1,9 +1,8 @@
-import { readFileInput } from '../tools-ts';
-
-const inputFile:string = require('path').resolve(__dirname, './inputs/day3.txt');
-let rucksacks: string[] = readFileInput(inputFile);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tools_ts_1 = require("../tools-ts");
+let rucksacks = (0, tools_ts_1.readFileInput)('./inputs/day3.txt');
 const priorities = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
 /*let sumPriority = 0;
 
 for (let rucksack of rucksacks) {
@@ -23,17 +22,16 @@ for (let rucksack of rucksacks) {
   }
 }
 console.log(sumPriority);*/
-
 let sumBadge = 0;
 let ruckIdx = 0;
 while (ruckIdx <= rucksacks.length - 3) {
-  const sortedRucksacks = rucksacks.slice(ruckIdx, ruckIdx + 3).sort((r1, r2) => r1.length - r2.length);
-  for (let ruck of sortedRucksacks[0]) {
-    if (sortedRucksacks[1].includes(ruck) && sortedRucksacks[2].includes(ruck)) {
-      sumBadge += priorities.indexOf(ruck) + 1;
-      break;
+    const sortedRucksacks = rucksacks.slice(ruckIdx, ruckIdx + 3).sort((r1, r2) => r1.length - r2.length);
+    for (let ruck of sortedRucksacks[0]) {
+        if (sortedRucksacks[1].includes(ruck) && sortedRucksacks[2].includes(ruck)) {
+            sumBadge += priorities.indexOf(ruck) + 1;
+            break;
+        }
     }
-  }
-  ruckIdx += 3;
+    ruckIdx += 3;
 }
 console.log(sumBadge);

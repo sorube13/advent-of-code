@@ -1,6 +1,6 @@
 import { readTextFile } from '../tools-ts';
-
-const datastream: string = readTextFile('./inputs/day6.txt');
+const inputFile:string = require('path').resolve(__dirname, './inputs/day6.txt');
+const datastream: string = readTextFile(inputFile);
 
 const chunk:number = 14;
 
