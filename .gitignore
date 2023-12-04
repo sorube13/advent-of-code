@@ -1,7 +1,3 @@
 node_modules/*
 package-lock.json
-<<<<<<< HEAD
-package.json
-=======
->>>>>>> eb34d6310ecb3effcfbca4523bcec3d62f4ec86d
 /.idea/
