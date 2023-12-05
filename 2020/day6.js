@@ -1,6 +1,6 @@
 require('../tools.js')();
 
-var customFormInput = readFileInputRegex('./inputs/day6.txt', "\r\n\r\n");
+var customFormInput = readFileInputRegexString('./inputs/day6.txt', "\r\n\r\n");
 
 
 class CustomForm {

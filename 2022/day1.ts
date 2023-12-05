@@ -1,4 +1,4 @@
-import { readFileInputRegex } from '../tools-ts';
+import { readFileInputRegexStringString } from '../tools-ts';
 
 const inputFile:string = require('path').resolve(__dirname, './inputs/day1.txt');
 
@@ -8,7 +8,7 @@ const inputFile:string = require('path').resolve(__dirname, './inputs/day1.txt')
  * For each element in the array, separate by new line
  * The output will be an array containing arrays of strings (= a list of elves, where each list is the calories carried by each elf)
  */
-let elfCalories: string[][] = readFileInputRegex(inputFile, '\r\n\r\n').map((i) => i.split('\r\n'));
+let elfCalories: string[][] = readFileInputRegexStringString(inputFile, '\r\n\r\n').map((i) => i.split('\r\n'));
 
 /**
  * Expedition class

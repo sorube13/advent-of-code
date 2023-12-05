@@ -5,7 +5,12 @@ export function readFileInput(fileInput: string):string[] {
   return text.split('\r\n');
 }
 
-export function readFileInputRegex(fileInput: string, regex: string):string[] {
+export function readFileInputRegexStringString(fileInput: string, regex: string):string[] {
+  const text = fs.readFileSync(fileInput, 'utf-8');
+  return text.split(regex);
+}
+
+export function readFileInputRegex(fileInput: string, regex: RegExp):string[] {
   const text = fs.readFileSync(fileInput, 'utf-8');
   return text.split(regex);
 }

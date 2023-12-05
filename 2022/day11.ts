@@ -1,7 +1,7 @@
-import { readFileInputRegex } from '../tools-ts';
+import { readFileInputRegexString } from '../tools-ts';
 
 const inputFile:string = require('path').resolve(__dirname, './inputs/day11.txt');
-const input: string[] = readFileInputRegex(inputFile, '\r\n\r\n');
+const input: string[] = readFileInputRegexString(inputFile, '\r\n\r\n');
 
 class Monkey {
   id: number;

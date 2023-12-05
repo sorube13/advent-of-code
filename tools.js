@@ -5,7 +5,7 @@ module.exports = function () {
         var text = fs.readFileSync(fileInput, "utf-8");
         return text.split("\r\n");
     };
-    this.readFileInputRegex = function (fileInput, regex) {
+    this.readFileInputRegexString = function (fileInput, regex) {
         var text = fs.readFileSync(fileInput, "utf-8");
         return text.split(regex);
     };

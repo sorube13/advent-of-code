@@ -1,6 +1,6 @@
 require('../tools.js')();
 
-var notes = readFileInputRegex('./inputs/day16.txt', "\r\n\r\n");
+var notes = readFileInputRegexString('./inputs/day16.txt', "\r\n\r\n");
 
 class Rule {
   constructor(input){

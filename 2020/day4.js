@@ -1,6 +1,6 @@
 require('../tools.js')();
 
-var passportsInput = readFileInputRegex('./inputs/day4.txt', "\r\n\r\n");
+var passportsInput = readFileInputRegexString('./inputs/day4.txt', "\r\n\r\n");
 
 class Passport {
   constructor(input) {
