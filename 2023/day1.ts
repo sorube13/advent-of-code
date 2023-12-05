@@ -1,4 +1,4 @@
-import {readFileInput, readFileInputRegex} from '../tools-ts';
+import {readFileInput} from '../tools-ts';
 
 const input:string = require('path').resolve(__dirname, './inputs/day1.txt');
 const calibrationDocument = readFileInput(input);
