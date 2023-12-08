@@ -3,7 +3,7 @@ import { readFileInput} from '../tools-ts';
 const input:string = require('path').resolve(__dirname, './inputs/day7.txt');
 const handsInput:string[] = readFileInput(input);
 
-const typeStrength:Map<string, number> = new Map<string,number>;
+const typeStrength:Map<string, number> = new Map<string,number>();
 typeStrength.set('Five of a kind',7);
 typeStrength.set('Four of a kind', 6);
 typeStrength.set('Full house', 5);
@@ -12,7 +12,7 @@ typeStrength.set('Two pair', 3);
 typeStrength.set('One pair', 2);
 typeStrength.set('High card', 1);
 
-const cardStrength: Map<string,number> = new Map<string,number>;
+const cardStrength: Map<string,number> = new Map<string,number>();
 cardStrength.set('A',14);
 cardStrength.set('K',13);
 cardStrength.set('Q',12);
@@ -37,7 +37,6 @@ class Hand {
     handCards:string;
     bid:number;
     cardCount:Map<string,number>=new Map<string,number>;
-    win:number=1;
     power:number=0;
 
     constructor(line:string) {
@@ -50,10 +49,10 @@ class Hand {
 
     getPower(){
         this.power = (cardStrength.get(this.handCards[4])??0)
-            + (10*(cardStrength.get(this.handCards[3])??0))
-                + (100*(cardStrength.get(this.handCards[2])??0))
-                    + (1000*(cardStrength.get(this.handCards[1])??0))
-                        + (10000*(cardStrength.get(this.handCards[0])??0));
+            + (13*(cardStrength.get(this.handCards[3])??0))
+                + (13*13*(cardStrength.get(this.handCards[2])??0))
+                    + (Math.pow(13,3)*(cardStrength.get(this.handCards[1])??0))
+                        + (Math.pow(13,4)*(cardStrength.get(this.handCards[0])??0));
 
     }
 
@@ -70,10 +69,10 @@ class Hand {
                 break;
             case 3 :
                 for(let[key,value] of this.cardCount.entries()) {
-                    if (value == 3) {
+                    if (value === 3) {
                         this.handType = typeStrength.get('Three of a kind') ?? 0; // TTT98 {T:3, 9:1, 8:1}
                         break;
-                    } else if (value == 2) {
+                    } else if (value === 2) {
                         this.handType = typeStrength.get('Two pair') ?? 0;        // 23432 {2:2, 2:2, 4:1}
                         break;
                     }
@@ -81,7 +80,7 @@ class Hand {
                 break;
             case 2:
                 let value = this.cardCount.values().next().value
-                if(value==4 || value == 1){
+                if(value===4 || value === 1){
                     this.handType=typeStrength.get('Four of a kind') ?? 0; // AA8AA {A:4, 8:1}
                 } else {
                     this.handType=typeStrength.get('Full house') ?? 0;     // 23332 {2:2, 3:3}
@@ -123,13 +122,14 @@ function partOne() {
     let totalWinnings:number = 0;
     let rank = 1;
     for(let i=handListOrdered.length-1;i>=0;i--) {
-        console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
+        //console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
+        //handListOrdered[i].print()
         totalWinnings+=rank*handListOrdered[i].bid;
         rank++;
     }
-    console.log('Total Winnings ', totalWinnings);
+    console.log('Total Winnings ', totalWinnings); 
 }
 
 
-partOne()
+partOne() // 251029473
 //partTwo()
