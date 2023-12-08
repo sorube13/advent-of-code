@@ -164,8 +164,7 @@ function calculateWinnings(handListOrdered:Hand[]){
     let totalWinnings:number = 0;
     let rank = 1;
     for(let i=handListOrdered.length-1;i>=0;i--) {
-        //console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
-        //handListOrdered[i].print()
+        console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
         totalWinnings+=rank*handListOrdered[i].bid;
         rank++;
     }
