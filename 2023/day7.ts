@@ -106,13 +106,14 @@ class Hand {
     /* LIST J
     J = 5 => FIVE OF A KIND
     J = 4 => FIVE OF A KIND
-    J = g => {FOUR OF A KIND (SIZE=2), FIVE OF A KIND (SIZE=1)}
+    J = 3 => {FOUR OF A KIND (SIZE=2), FIVE OF A KIND (SIZE=1)}
     J = 2 => {THREE OF A KIND (SIZE=3), FOUR OF A KIND (SIZE=2), FIVE OF A KIND (SIZE=1)}
-    J = 1 => {ONE PAIR (SIZE=4), THREE OF A KIND (SIZE=3), FOUR OF A KIND (SIZE=2), FIVE OF A KIND (SIZE=1)}
+    J = 1 => {ONE PAIR (SIZE=4), THREE OF A KIND (SIZE=3), FULL HOUSE (SIZE=2), FOUR OF A KIND (SIZE=2), FIVE OF A KIND (SIZE=1)}
    */
 
     getHandTypeWithJoker() {
         let nbJokers = this.cardCount.get('J') ?? 0;
+        const cardCountWithoutJoker = new Map([...this.cardCount].filter(([key,val]) => key!=='J'));
         if(nbJokers===0) {
             console.error('There should always be a joker')
             return;
@@ -120,8 +121,18 @@ class Hand {
         if(nbJokers===5 || nbJokers===4) {
             this.handType=typeStrength.get('Five of a kind') ?? 0;
         } else { // nbJokers = 3 || 2 || 1
-            let cardCountSizeWithoutJoker = this.cardCount.size-1;
-            if(cardCountSizeWithoutJoker===1){
+            let cardCountSizeWithoutJoker = cardCountWithoutJoker.size;
+
+            if(nbJokers ===1 && cardCountSizeWithoutJoker === 2) {
+                // AAKKJ {A:2, K:2} FULL HOUSE
+                // AKKKJ {A:1, K:3} FOUR OF A KIND
+                let value = cardCountWithoutJoker.values().next().value
+                if(value===3 || value === 1){
+                    this.handType=typeStrength.get('Four of a kind') ?? 0; // AA8AA {A:4, 8:1}
+                } else {
+                    this.handType=typeStrength.get('Full house') ?? 0;     // 23332 {2:2, 3:3}
+                }
+            } else if(cardCountSizeWithoutJoker===1){
                 this.handType=typeStrength.get('Five of a kind') ?? 0;
             } else if(cardCountSizeWithoutJoker===2){
                 this.handType=typeStrength.get('Four of a kind') ?? 0;
@@ -164,7 +175,7 @@ function calculateWinnings(handListOrdered:Hand[]){
     let totalWinnings:number = 0;
     let rank = 1;
     for(let i=handListOrdered.length-1;i>=0;i--) {
-        console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
+        //console.log(handListOrdered[i].handCards,handListOrdered[i].bid, handListOrdered[i].power,rank);
         totalWinnings+=rank*handListOrdered[i].bid;
         rank++;
     }
