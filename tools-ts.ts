@@ -29,3 +29,16 @@ export function transpose(matrix:string[][]) {
   return row.map((value, column) => matrix.map((row) => row[column]));
 }
 
+
+export function log(logOn:boolean, output:any){
+  if(logOn) {
+    console.log(output);
+  }
+}
+
+export function logTable(logOn:boolean, output:any){
+  if(logOn) {
+    console.table(output);
+  }
+}
+
