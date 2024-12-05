@@ -1,4 +1,4 @@
-const day = Number(process.env.npm_config_date ?? new Date().getDate());
+const day = Number(process.env.npm_config_day ?? new Date().getDate());
 const year:number = Number(process.env.npm_config_year ?? new Date().getFullYear());
 
 const outputSolution = () => {

@@ -5,7 +5,7 @@ export function readFileInput(fileInput: string):string[] {
   return text.split('\r\n');
 }
 
-export function readFileInputRegexStringString(fileInput: string, regex: string):string[] {
+export function readFileInputRegexString(fileInput: string, regex: string):string[] {
   const text = fs.readFileSync(fileInput, 'utf-8');
   return text.split(regex);
 }
@@ -30,15 +30,5 @@ export function transpose(matrix:string[][]) {
 }
 
 
-export function log(logOn:boolean, output:any){
-  if(logOn) {
-    console.log(output);
-  }
-}
 
-export function logTable(logOn:boolean, output:any){
-  if(logOn) {
-    console.table(output);
-  }
-}
 
