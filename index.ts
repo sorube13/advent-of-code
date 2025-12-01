@@ -1,4 +1,4 @@
-const day = Number(process.env.npm_config_day ?? new Date().getDate());
+const day = 1;//Number(process.env.npm_config_day ?? new Date().getDate());
 const year:number = Number(process.env.npm_config_year ?? new Date().getFullYear());
 
 const outputSolution = () => {
@@ -16,6 +16,6 @@ const validate = (type: 'day' | 'year', num: number, min:number, max: number) =>
 };
 
 validate('day', day, 1,25);
-validate('year', year, 2022, 2023)
+validate('year', year, 2022, 2024);
 
 outputSolution();

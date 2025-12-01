@@ -54,15 +54,23 @@ function calculateMiddlePageNumbers(updates:number[][]){
     return middlePageNumbers;
 }
 
+function sortUpdate(update:number[]) {
+    for(let i=0;i<update.length;i++){
+        for(let bn of rules.get(update[i])||[]) {
+            let idxBn = update.indexOf(bn);
+            if(idxBn!=-1 && idxBn>i){
+                let tempIdxBn = update[idxBn];
+                update[idxBn] = update[i];
+                update[i]=tempIdxBn;
+            }
+        }
+    }
+    return update;
+}
 
 // Part 1
 console.log('Part 1: ', calculateMiddlePageNumbers(analyseInput()[0]));
 // Part 2
-console.log('Part 2: ',analyseInput()[1]);
-
-
-
-
-
+console.log('Part 2: ',sortUpdate(analyseInput()[1][0]));
 
 
