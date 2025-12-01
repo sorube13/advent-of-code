@@ -24,6 +24,10 @@ export function readTextFile(fileInput: string) : string{
   return fs.readFileSync(fileInput, 'utf-8');
 }
 
+export function readFileInputAsMatrix(fileInput:string):string[][] {
+    return readFileInput(fileInput).map((i) => i.split(''));
+}
+
 export function transpose(matrix:string[][]) {
   let [row] = matrix;
   return row.map((value, column) => matrix.map((row) => row[column]));
